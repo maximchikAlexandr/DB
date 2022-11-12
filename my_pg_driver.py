@@ -5,12 +5,12 @@ import socket
 # Create C struct
 pg_packet = struct.Struct('!cI')
 
-# Struct of  message to PostgreSQL
-# (b'Q') + (length of body + 4 bytes of length) + body
+# Struct of message to PostgreSQL
+# type_of_msg(b'Q') + (length of body + 4 bytes of length) + body + separator
 # Q - query
 def make_query_message(query: str, type_of_msg='Q'):
     separator = b'\0'
-    # encode: str -> byte
+    # str.encode: str -> byte
     body_of_msg = query.encode() + separator
     # Create in-memory bytes buffer
     with io.BytesIO() as buff:
