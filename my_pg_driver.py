@@ -2,8 +2,10 @@ import struct # module performs conversions between Python values and C structs
 import io # tools for working with streams
 import socket
 
+# c - char (length - 1 byte), I - unsigned int  (length - 4 bytes)
+format_for_packing = '!cI'
 # Create C struct
-pg_packet = struct.Struct('!cI')
+pg_packet = struct.Struct(format_for_packing)
 
 # Struct of message to PostgreSQL
 # type_of_msg(b'Q') + (length of body + 4 bytes of length) + body + separator
@@ -30,5 +32,5 @@ def make_query_message(query: str, type_of_msg='Q'):
 #         sock.send(make_query_message(f'SELECT pf_sleep(5); SELECT {i}'))
 #     print(sock.recv(65535))
 
-a= make_query_message(f'SELECT pf_sleep(5); SELECT 1')
+a = make_query_message(f'SELECT pf_sleep(5); SELECT 1')
 print(a)
