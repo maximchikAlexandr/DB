@@ -11,8 +11,8 @@ conn = psycopg2.connect(database="postgres", user="postgres", password=password_
 
 cur = conn.cursor()
 
-cur.execute('SELECT 1')
-data = cur.fetchone()
+cur.execute('SELECT 1 UNION SELECT 2')
+data = cur.fetchall()
 print(data, type(data))
 
 cur.close()
