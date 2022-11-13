@@ -24,13 +24,21 @@ def make_query_message(query: str, type_of_msg='Q'):
         # Return the entire contents of buffer
         return buff.getvalue()
 
-# with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-#     sock.connect(('localhost', 5432))
-#     sock.send(...)
-#     print(sock.recv(65535))
-#     for i in range(2):
-#         sock.send(make_query_message(f'SELECT pf_sleep(5); SELECT {i}'))
-#     print(sock.recv(65535))
+HOST = 'localhost'
+PORT = 5432
+# Create a new socket object. A socket object represents one endpoint of a network connection.
+# AF_INET - socket domains, SOCK_STREAM - socket types
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
+    # Connect the socket to a remote address (host, port)
+    client.connect((HOST, PORT))
+    # Send data
+    authentication_message = b'authentication_message'
+    client.send(authentication_message)
+    # receive data
+    print(client.recv(65535))
+    for i in range(2):
+        client.send(make_query_message(f'SELECT pf_sleep(5); SELECT {i}'))
+    print(client.recv(65535))
 
 a = make_query_message(f'SELECT pf_sleep(5); SELECT 1')
 print(a)
