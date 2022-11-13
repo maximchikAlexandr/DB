@@ -26,13 +26,13 @@ def make_query_message(query: str, type_of_msg='Q'):
 
 HOST = 'localhost'
 PORT = 5432
+authentication_message = b'authentication_message'
 # Create a new socket object. A socket object represents one endpoint of a network connection.
 # AF_INET - socket domains, SOCK_STREAM - socket types
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
     # Connect the socket to a remote address (host, port)
     client.connect((HOST, PORT))
     # Send data
-    authentication_message = b'authentication_message'
     client.send(authentication_message)
     # receive data
     print(client.recv(65535))
